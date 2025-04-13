@@ -7,22 +7,22 @@ Prerequisites
 Installation
 Clone the repository:
 
-  git clone https://github.com/Drieox/PIT4.git
-  cd PIT4
+  <pre>git clone https://github.com/Drieox/PIT4.git
+  cd PIT4</pre>
 
 
 Create and activate a virtual environment:
-##codeline
-  python -m venv env
-  source env/bin/activate  # On Windows: env\Scripts\activate
+
+  <pre>python -m venv env
+  source env/bin/activate  # On Windows: env\Scripts\activate</pre>
 
 Install dependencies:
-  pip install -r requirements.txt
+  <pre>pip install -r requirements.txt</pre>
 
 Configure environment variables:
 
 Create a .env file in the project root with the following content:
-  DATABASE_URL=postgresql://username:password@localhost:5432/todo_db
+  <pre>DATABASE_URL=postgresql://username:password@localhost:5432/todo_db</pre>
 Replace username, password, and todo_db with your PostgreSQL credentials and desired database name.
 
 Endpoints:
