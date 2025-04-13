@@ -12,15 +12,15 @@ app = FastAPI()
 
 # Configure CORS to allow requests from your React frontend
 origins = [
-    "https://beautiful-gnome-a14487.netlify.app/",  # Replace with your deployed frontend URL
+    "https://beautiful-gnome-a14487.netlify.app/",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins, 
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["https://beautiful-gnome-a14487.netlify.app/"], 
+    allow_headers=["https://beautiful-gnome-a14487.netlify.app/"],
 )
 
 # Include your routers
