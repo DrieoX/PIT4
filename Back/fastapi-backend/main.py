@@ -12,8 +12,7 @@ app = FastAPI()
 
 # Configure CORS to allow requests from your React frontend
 origins = [
-    "http://localhost:3000",  # React development server
-    "https://your-react-app.netlify.app",  # Replace with your deployed frontend URL
+    "https://beautiful-gnome-a14487.netlify.app/",  # Replace with your deployed frontend URL
 ]
 
 app.add_middleware(
