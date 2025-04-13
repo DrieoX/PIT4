@@ -33,7 +33,7 @@ function App() {
       alert('Please enter both task name and deadline.');
       return;
     }
-    const task = { name: newTask, deadline: newDeadline, completed: false };
+    const task = { title: newTask, description: '', completed: false, deadline: newDeadline };
     try {
       const response = await axios.post('/api/todos/', task);
       setTasks([...tasks, response.data]);
@@ -49,7 +49,7 @@ function App() {
     if (!taskToUpdate) return;
     const updatedTask = { ...taskToUpdate, completed: !taskToUpdate.completed };
     try {
-      await axios.put(`/${id}/`, updatedTask);
+      await axios.put(`/api/todos/${id}/`, updatedTask);
       setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
     } catch (error) {
       console.error('Error toggling task completion:', error);
@@ -74,7 +74,7 @@ function App() {
       alert('Both fields are required.');
       return;
     }
-    const updatedTask = { name: editedName, deadline: editedDeadline, completed: false };
+    const updatedTask = { title: editedName, deadline: editedDeadline, completed: false };
     try {
       await axios.put(`/api/todos/${id}/`, updatedTask);
       setTasks(tasks.map((task) => (task.id === id ? { ...task, ...updatedTask, editing: false } : task)));
@@ -104,7 +104,7 @@ function App() {
       <div className="input-section">
         <input
           type="text"
-          placeholder="Task Name"
+          placeholder="Task Title"
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
         />
@@ -135,7 +135,7 @@ function App() {
                   onChange={() => toggleTask(task.id)}
                 />
                 <span className={`task-info ${task.completed ? 'completed' : ''}`}>
-                  {task.name} - Deadline: {new Date(task.deadline).toLocaleString()}
+                  {task.title} - Deadline: {new Date(task.deadline).toLocaleString()}
                 </span>
                 <button onClick={() => startEditing(task.id)}>Edit</button>
                 <button onClick={() => deleteTask(task.id)}>❌</button>
@@ -149,7 +149,7 @@ function App() {
 }
 
 function TaskEditForm({ task, saveEdit, cancelEdit }) {
-  const [editedName, setEditedName] = useState(task.name);
+  const [editedName, setEditedName] = useState(task.title);
   const [editedDeadline, setEditedDeadline] = useState(task.deadline);
 
   return (
