@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import todos  # Assuming you have a router for todo operations
+from routers import todos  
 
 app = FastAPI()
 
