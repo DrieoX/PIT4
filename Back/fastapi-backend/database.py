@@ -1,24 +1,13 @@
-# database.py
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
-# Retrieve database credentials from environment variables
-POSTGRES_USER = os.getenv("POSTGRES_USER")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
-POSTGRES_SERVER = os.getenv("POSTGRES_SERVER", "localhost")
-POSTGRES_PORT = os.getenv("POSTGRES_PORT", 5432)
-POSTGRES_DB = os.getenv("POSTGRES_DB")
+DATABASE_URL = os.getenv("postgresql://todoapp_58p7_user:UuHOCqgYsIgAljSN2ZTuB4YIPzXQdbi5@dpg-cvtmpo24d50c73ak73s0-a/todoapp_58p7")  # Use full URL from Render
 
-# Construct the database URL
-DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
-
-# Create the SQLAlchemy engine and session
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
