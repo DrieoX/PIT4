@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('/');
+        const response = await axios.get('/api/todos/');
         setTasks(response.data);
       } catch (error) {
         console.error('Error fetching tasks:', error);
@@ -35,7 +35,7 @@ function App() {
     }
     const task = { name: newTask, deadline: newDeadline, completed: false };
     try {
-      const response = await axios.post('/', task);
+      const response = await axios.post('/api/todos/', task);
       setTasks([...tasks, response.data]);
       setNewTask('');
       setNewDeadline('');
@@ -58,7 +58,7 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`/${id}/`);
+      await axios.delete(`/api/todos/${id}/`);
       setTasks(tasks.filter((task) => task.id !== id));
     } catch (error) {
       console.error('Error deleting task:', error);
@@ -76,7 +76,7 @@ function App() {
     }
     const updatedTask = { name: editedName, deadline: editedDeadline, completed: false };
     try {
-      await axios.put(`/${id}/`, updatedTask);
+      await axios.put(`/api/todos/${id}/`, updatedTask);
       setTasks(tasks.map((task) => (task.id === id ? { ...task, ...updatedTask, editing: false } : task)));
     } catch (error) {
       console.error('Error saving edited task:', error);
