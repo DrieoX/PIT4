@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from './axios';
-import { HashRouter as Router } from 'react-router-dom';
+import axios from './axios'; // Assuming axios is configured with baseURL
 import './App.css';
 
 function App() {
@@ -16,11 +15,11 @@ function App() {
     document.body.classList.toggle('dark-mode', darkMode);
   }, [darkMode]);
 
-  // Fetch tasks from the Django API
+  // Fetch tasks from the FastAPI backend
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get('tasks/');
+        const response = await axios.get('/');
         setTasks(response.data);
       } catch (error) {
         console.error('Error fetching tasks:', error);
@@ -36,7 +35,7 @@ function App() {
     }
     const task = { name: newTask, deadline: newDeadline, completed: false };
     try {
-      const response = await axios.post('tasks/', task);
+      const response = await axios.post('/', task);
       setTasks([...tasks, response.data]);
       setNewTask('');
       setNewDeadline('');
@@ -50,7 +49,7 @@ function App() {
     if (!taskToUpdate) return;
     const updatedTask = { ...taskToUpdate, completed: !taskToUpdate.completed };
     try {
-      await axios.put(`tasks/${id}/`, updatedTask);
+      await axios.put(`/${id}/`, updatedTask);
       setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
     } catch (error) {
       console.error('Error toggling task completion:', error);
@@ -59,7 +58,7 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`tasks/${id}/`);
+      await axios.delete(`/${id}/`);
       setTasks(tasks.filter((task) => task.id !== id));
     } catch (error) {
       console.error('Error deleting task:', error);
@@ -77,7 +76,7 @@ function App() {
     }
     const updatedTask = { name: editedName, deadline: editedDeadline, completed: false };
     try {
-      await axios.put(`tasks/${id}/`, updatedTask);
+      await axios.put(`/${id}/`, updatedTask);
       setTasks(tasks.map((task) => (task.id === id ? { ...task, ...updatedTask, editing: false } : task)));
     } catch (error) {
       console.error('Error saving edited task:', error);
@@ -96,58 +95,56 @@ function App() {
   });
 
   return (
-    <Router>
-      <div className="container">
-        <h1>To-Do List</h1>
-        <button onClick={() => setDarkMode((prev) => !prev)}>
-          {darkMode ? '🔆 Light Mode' : '🌙 Dark Mode'}
-        </button>
+    <div className="container">
+      <h1>To-Do List</h1>
+      <button onClick={() => setDarkMode((prev) => !prev)}>
+        {darkMode ? '🔆 Light Mode' : '🌙 Dark Mode'}
+      </button>
 
-        <div className="input-section">
-          <input
-            type="text"
-            placeholder="Task Name"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-          />
-          <input
-            type="datetime-local"
-            value={newDeadline}
-            onChange={(e) => setNewDeadline(e.target.value)}
-          />
-          <button onClick={addTask}>Add Task</button>
-        </div>
-
-        <div className="filters">
-          <button onClick={() => setFilter('all')}>All</button>
-          <button onClick={() => setFilter('completed')}>Completed</button>
-          <button onClick={() => setFilter('pending')}>Pending</button>
-        </div>
-
-        <ul>
-          {filteredTasks.map((task) => (
-            <li key={task.id}>
-              {task.editing ? (
-                <TaskEditForm task={task} saveEdit={saveEdit} cancelEdit={cancelEdit} />
-              ) : (
-                <div className="task-display">
-                  <input
-                    type="checkbox"
-                    checked={task.completed}
-                    onChange={() => toggleTask(task.id)}
-                  />
-                  <span className={`task-info ${task.completed ? 'completed' : ''}`}>
-                    {task.name} - Deadline: {new Date(task.deadline).toLocaleString()}
-                  </span>
-                  <button onClick={() => startEditing(task.id)}>Edit</button>
-                  <button onClick={() => deleteTask(task.id)}>❌</button>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
+      <div className="input-section">
+        <input
+          type="text"
+          placeholder="Task Name"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+        />
+        <input
+          type="datetime-local"
+          value={newDeadline}
+          onChange={(e) => setNewDeadline(e.target.value)}
+        />
+        <button onClick={addTask}>Add Task</button>
       </div>
-    </Router>
+
+      <div className="filters">
+        <button onClick={() => setFilter('all')}>All</button>
+        <button onClick={() => setFilter('completed')}>Completed</button>
+        <button onClick={() => setFilter('pending')}>Pending</button>
+      </div>
+
+      <ul>
+        {filteredTasks.map((task) => (
+          <li key={task.id}>
+            {task.editing ? (
+              <TaskEditForm task={task} saveEdit={saveEdit} cancelEdit={cancelEdit} />
+            ) : (
+              <div className="task-display">
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => toggleTask(task.id)}
+                />
+                <span className={`task-info ${task.completed ? 'completed' : ''}`}>
+                  {task.name} - Deadline: {new Date(task.deadline).toLocaleString()}
+                </span>
+                <button onClick={() => startEditing(task.id)}>Edit</button>
+                <button onClick={() => deleteTask(task.id)}>❌</button>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
