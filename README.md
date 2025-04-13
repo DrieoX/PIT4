@@ -33,3 +33,11 @@ post('/', task);
 put(`/${id}/`, updatedTask);
 
 delete(`/${id}/`);
+
+Live dev links:
+Netlify(React)
+<pre>https://beautiful-gnome-a14487.netlify.app/</pre>
+
+Render(FastAPI | PostgreSql):
+<pre>https://pit4.onrender.com
+https://pit4.onrender.com/api.todos</pre>
