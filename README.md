@@ -7,8 +7,8 @@ Prerequisites
 Installation
 Clone the repository:
 
-  git clone https://github.com/yourusername/todo-api.git
-  cd todo-api
+  git clone https://github.com/Drieox/PIT4.git
+  cd PIT4
 
 
 Create and activate a virtual environment:
