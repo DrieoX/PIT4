@@ -40,4 +40,4 @@ Netlify(React)
 
 Render(FastAPI | PostgreSql):
 <pre>https://pit4.onrender.com
-https://pit4.onrender.com/api.todos</pre>
+https://pit4.onrender.com/api/todos</pre>
